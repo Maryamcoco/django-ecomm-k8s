@@ -1,0 +1,49 @@
+{% extends 'shop/base.html' %}
+
+{% block title %}Products - Ecommerce Store{% endblock %}
+
+{% block content %}
+<h1 style="margin-bottom: 2rem; font-size: 2.5rem; color: #333;">
+    {% if category %}{{ category.name }}{% else %}All Products{% endif %}
+</h1>
+
+<div class="categories">
+    <a href="{% url 'shop:product_list' %}" class="category-btn {% if not category %}active{% endif %}">
+        All Products
+    </a>
+    {% for c in categories %}
+        <a href="{% url 'shop:product_list_by_category' c.slug %}" 
+           class="category-btn {% if category.slug == c.slug %}active{% endif %}">
+            {{ c.name }}
+        </a>
+    {% endfor %}
+</div>
+
+<div class="products-grid">
+    {% for product in products %}
+        <div class="product-card">
+            <div class="product-image">
+                {% if product.image %}
+                    <img src="{{ product.image.url }}" alt="{{ product.name }}" style="width: 100%; height: 100%; object-fit: cover;">
+                {% else %}
+                    📦
+                {% endif %}
+            </div>
+            <div class="product-info">
+                <h3 class="product-name">{{ product.name }}</h3>
+                <p style="color: #666; margin-bottom: 1rem;">{{ product.description|truncatewords:15 }}</p>
+                <div class="product-price">${{ product.price }}</div>
+                <div style="display: flex; gap: 1rem;">
+                    <a href="{{ product.get_absolute_url }}" class="btn" style="flex: 1;">View Details</a>
+                    <button onclick="addToCart({{ product.id }})" class="btn">Add to Cart</button>
+                </div>
+            </div>
+        </div>
+    {% empty %}
+        <div style="grid-column: 1 / -1; text-align: center; padding: 3rem; color: #666;">
+            <h2>No products found</h2>
+            <p>Check back later for new products!</p>
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}
