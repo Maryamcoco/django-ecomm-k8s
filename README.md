@@ -98,6 +98,8 @@ Then visit:
 http://localhost:8000
 ```
 ---
+## View
+![ecommerce](https://github.com/Maryamcoco/django-ecomm-k8s/blob/master/kubernetes%20deployment%20django%20.png)
 
 ## 🔮 Future Improvements
 
